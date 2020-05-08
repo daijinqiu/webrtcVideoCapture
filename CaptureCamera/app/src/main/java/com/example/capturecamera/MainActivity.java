@@ -10,10 +10,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.capturecamera.cameras.Camera1Enumerator;
 import com.example.capturecamera.cameras.CameraEnumerator;
+import com.example.capturecamera.cameras.CapturerObserver;
 import com.example.capturecamera.cameras.RendererCommon.ScalingType;
 import com.example.capturecamera.cameras.SurfaceTextureHelper;
 import com.example.capturecamera.cameras.SurfaceViewRenderer;
 import com.example.capturecamera.cameras.VideoCapturer;
+import com.example.capturecamera.cameras.VideoFrame;
 import com.example.capturecamera.opengl.EglBase;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,14 +36,11 @@ public class MainActivity extends AppCompatActivity {
         renderer.init(eglBase.getEglBaseContext(), null);
         renderer.setScalingType(ScalingType.SCALE_ASPECT_FILL);
         renderer.setZOrderMediaOverlay(true);
-        renderer.setEnableHardwareScaler(true);
-
-
-
-
+        //renderer.setEnableHardwareScaler(true);
+        renderer.setEnableHardwareScaler(false);
     }
 
-    private  VideoCapturer createCameraCapturer(CameraEnumerator enumerator) {
+    private VideoCapturer createCameraCapturer(CameraEnumerator enumerator) {
         final String[] deviceNames = enumerator.getDeviceNames();
 
         // First, try to find front facing camera
@@ -78,27 +77,55 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
-    private void request(){
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+
+    private void request() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, " grad");
             ActivityCompat.requestPermissions(this,
                     REQUESTED_PERMISSIONS, 1);
             videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
 
-            surfaceTextureHelper =
-                    SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
-            videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), null);
+            surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
+            videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), new CapturerObserver() {
+                @Override
+                public void onCapturerStarted(boolean success) {
+
+                }
+
+                @Override
+                public void onCapturerStopped() {
+
+                }
+
+                @Override
+                public void onFrameCaptured(VideoFrame frame) {
+                    renderer.onFrame(frame);
+                }
+            });
             videoCapturer.startCapture(640, 480, 20);
-        }else {
+        } else {
             Log.d(TAG, " not grad");
             videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
 
-            surfaceTextureHelper =
-                    SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
-            videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), null);
+            surfaceTextureHelper = surfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
+            videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), new CapturerObserver() {
+                @Override
+                public void onCapturerStarted(boolean success) {
+
+                }
+
+                @Override
+                public void onCapturerStopped() {
+
+                }
+
+                @Override
+                public void onFrameCaptured(VideoFrame frame) {
+                    renderer.onFrame(frame);
+                }
+            });
             videoCapturer.startCapture(640, 480, 20);
         }
-
     }
 
 }
