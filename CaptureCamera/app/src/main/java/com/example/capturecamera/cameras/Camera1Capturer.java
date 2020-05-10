@@ -15,8 +15,7 @@ import android.content.Context;
 public class Camera1Capturer extends CameraCapturer {
   private final boolean captureToTexture;
 
-  public Camera1Capturer(
-      String cameraName, CameraEventsHandler eventsHandler, boolean captureToTexture) {
+  public Camera1Capturer(String cameraName, CameraEventsHandler eventsHandler, boolean captureToTexture) {
     super(cameraName, eventsHandler, new Camera1Enumerator(captureToTexture));
 
     this.captureToTexture = captureToTexture;

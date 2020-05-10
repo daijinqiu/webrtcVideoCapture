@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     renderer.onFrame(frame);
                 }
             });
-            videoCapturer.startCapture(640, 480, 20);
+            videoCapturer.startCapture(1920, 1080, 30);
         } else {
             Log.d(TAG, " not grad");
             videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     renderer.onFrame(frame);
                 }
             });
-            videoCapturer.startCapture(640, 480, 20);
+            videoCapturer.startCapture(1920, 1080, 30);
         }
     }
 

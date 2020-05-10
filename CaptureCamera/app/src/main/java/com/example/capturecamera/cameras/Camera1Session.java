@@ -103,6 +103,31 @@ class Camera1Session implements CameraSession {
             }
         }
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                while (true){
+//                    try {
+//                        Camera.Parameters par = camera.getParameters();
+//                        int zoomvalue = par.getZoom();
+//                        zoomvalue += 1;
+//                        if(zoomvalue > par.getMaxZoom()){
+//                            zoomvalue = 5;
+//                        }
+//                        par.setZoom(zoomvalue);
+//
+//                        camera.setParameters(par);
+//                        Log.d("daijinqiu", "zoom = " + zoomvalue);
+//                        Thread.sleep(500);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//            }
+//        }).start();
+
         // Calculate orientation manually and send it as CVO insted.
         camera.setDisplayOrientation(0 /* degrees */);
 
@@ -129,6 +154,8 @@ class Camera1Session implements CameraSession {
             parameters.setFocusMode(android.hardware.Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
         }
         camera.setParameters(parameters);
+
+
     }
 
     private static CaptureFormat findClosestCaptureFormat(
