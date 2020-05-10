@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.capturecamera.cameras.Camera1Enumerator;
+import com.example.capturecamera.cameras.Camera2Enumerator;
 import com.example.capturecamera.cameras.CameraEnumerator;
 import com.example.capturecamera.cameras.CapturerObserver;
 import com.example.capturecamera.cameras.RendererCommon.ScalingType;
@@ -83,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, " grad");
             ActivityCompat.requestPermissions(this,
                     REQUESTED_PERMISSIONS, 1);
-            videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
+            //videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
+            videoCapturer = createCameraCapturer(new Camera2Enumerator(this));
 
             surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
             videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), new CapturerObserver() {

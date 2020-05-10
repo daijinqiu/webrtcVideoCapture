@@ -194,7 +194,7 @@ public class EglRenderer implements VideoSink {
 
     /**
      * Standard constructor. The name will be used for the render thread name and included when
-     * logging. In order to render something, you must first call init() and createEglSurface.
+     * Log. In order to render something, you must first call init() and createEglSurface.
      */
     public EglRenderer(String name) {
         this(name, new VideoFrameDrawer());
