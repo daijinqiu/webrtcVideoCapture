@@ -41,12 +41,12 @@ import java.util.concurrent.TimeUnit;
 class Camera2Session implements CameraSession {
   private static final String TAG = "Camera2Session";
 
-  private static final Histogram camera2StartTimeMsHistogram =
-          Histogram.createCounts("WebRTC.Android.Camera2.StartTimeMs", 1, 10000, 50);
-  private static final Histogram camera2StopTimeMsHistogram =
-          Histogram.createCounts("WebRTC.Android.Camera2.StopTimeMs", 1, 10000, 50);
-  private static final Histogram camera2ResolutionHistogram = Histogram.createEnumeration(
-          "WebRTC.Android.Camera2.Resolution", CameraEnumerationAndroid.COMMON_RESOLUTIONS.size());
+//  private static final Histogram camera2StartTimeMsHistogram =
+//          Histogram.createCounts("WebRTC.Android.Camera2.StartTimeMs", 1, 10000, 50);
+//  private static final Histogram camera2StopTimeMsHistogram =
+//          Histogram.createCounts("WebRTC.Android.Camera2.StopTimeMs", 1, 10000, 50);
+//  private static final Histogram camera2ResolutionHistogram = Histogram.createEnumeration(
+//          "WebRTC.Android.Camera2.Resolution", CameraEnumerationAndroid.COMMON_RESOLUTIONS.size());
 
   private static enum SessionState {RUNNING, STOPPED}
 
@@ -203,7 +203,7 @@ class Camera2Session implements CameraSession {
           firstFrameReported = true;
           final int startTimeMs =
                   (int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - constructionTimeNs);
-          camera2StartTimeMsHistogram.addSample(startTimeMs);
+          //camera2StartTimeMsHistogram.addSample(startTimeMs);
         }
 
         // Undo the mirror that the OS "helps" us with.
@@ -346,7 +346,7 @@ class Camera2Session implements CameraSession {
             CameraEnumerationAndroid.getClosestSupportedFramerateRange(framerateRanges, framerate);
 
     final Size bestSize = CameraEnumerationAndroid.getClosestSupportedSize(sizes, width, height);
-    CameraEnumerationAndroid.reportCameraResolution(camera2ResolutionHistogram, bestSize);
+    //CameraEnumerationAndroid.reportCameraResolution(camera2ResolutionHistogram, bestSize);
 
     captureFormat = new CaptureFormat(bestSize.width, bestSize.height, bestFpsRange);
     Log.d(TAG, "Using capture format: " + captureFormat);
@@ -385,7 +385,7 @@ class Camera2Session implements CameraSession {
       state = SessionState.STOPPED;
       stopInternal();
       final int stopTimeMs = (int) TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - stopStartTime);
-      camera2StopTimeMsHistogram.addSample(stopTimeMs);
+     // camera2StopTimeMsHistogram.addSample(stopTimeMs);
     }
   }
 

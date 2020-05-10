@@ -22,6 +22,7 @@ import android.util.Log;
 import com.example.capturecamera.cameras.TextureBufferImpl.RefCountMonitor;
 import com.example.capturecamera.cameras.VideoFrame.TextureBuffer;
 import com.example.capturecamera.opengl.EglBase;
+import com.example.capturecamera.utils.ThreadUtils;
 
 import java.util.concurrent.Callable;
 

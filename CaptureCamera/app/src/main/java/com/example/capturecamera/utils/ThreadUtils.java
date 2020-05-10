@@ -8,7 +8,7 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-package com.example.capturecamera.cameras;
+package com.example.capturecamera.utils;
 
 import android.os.Handler;
 import android.os.Looper;

@@ -15,6 +15,7 @@ import android.opengl.GLES20;
 import java.nio.ByteBuffer;
 import com.example.capturecamera.cameras.VideoFrame.I420Buffer;
 import com.example.capturecamera.cameras.VideoFrame.TextureBuffer;
+import com.example.capturecamera.utils.ThreadUtils;
 
 /**
  * Class for converting OES textures to a YUV ByteBuffer. It can be constructed on any thread, but

@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Surface;
 
 import com.example.capturecamera.opengl.EglBase;
+import com.example.capturecamera.utils.ThreadUtils;
 
 import java.nio.ByteBuffer;
 import java.text.DecimalFormat;

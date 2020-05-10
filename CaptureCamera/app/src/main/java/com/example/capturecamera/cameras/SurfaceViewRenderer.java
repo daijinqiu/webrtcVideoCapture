@@ -20,6 +20,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.capturecamera.opengl.EglBase;
+import com.example.capturecamera.utils.ThreadUtils;
 
 /**
  * Display the video stream on a SurfaceView.

@@ -8,7 +8,6 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.capturecamera.cameras.Camera1Enumerator;
 import com.example.capturecamera.cameras.Camera2Enumerator;
 import com.example.capturecamera.cameras.CameraEnumerator;
 import com.example.capturecamera.cameras.CapturerObserver;
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             videoCapturer.startCapture(1920, 1080, 30);
         } else {
             Log.d(TAG, " not grad");
-            videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
+            videoCapturer = createCameraCapturer(new Camera2Enumerator(this));
 
             surfaceTextureHelper = surfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
             videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), new CapturerObserver() {

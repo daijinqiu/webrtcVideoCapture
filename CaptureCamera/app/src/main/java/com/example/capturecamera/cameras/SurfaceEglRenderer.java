@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.example.capturecamera.opengl.EglBase;
+import com.example.capturecamera.utils.ThreadUtils;
 
 import java.util.concurrent.CountDownLatch;
 
