@@ -1,132 +1,48 @@
 package com.example.capturecamera;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import com.example.capturecamera.cameras.Camera2Enumerator;
-import com.example.capturecamera.cameras.CameraEnumerator;
-import com.example.capturecamera.cameras.CapturerObserver;
-import com.example.capturecamera.cameras.RendererCommon.ScalingType;
-import com.example.capturecamera.cameras.SurfaceTextureHelper;
-import com.example.capturecamera.cameras.SurfaceViewRenderer;
-import com.example.capturecamera.cameras.VideoCapturer;
-import com.example.capturecamera.cameras.VideoFrame;
-import com.example.capturecamera.opengl.EglBase;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private final static String TAG = "MainActivity";
-    final EglBase eglBase = EglBase.create();
-    private SurfaceViewRenderer renderer;
-    private VideoCapturer videoCapturer;
-    private SurfaceTextureHelper surfaceTextureHelper;
+
+    private Button camera1Btn;
+    private Button camera2Btn;
+    private Button screenBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        camera1Btn = findViewById(R.id.camera1_btn);
+        camera2Btn = findViewById(R.id.camera2_btn);
+        screenBtn = findViewById(R.id.screen_btn);
 
-        request();
-        renderer = findViewById(R.id.fullscreen_video_view);
-        renderer.init(eglBase.getEglBaseContext(), null);
-        renderer.setScalingType(ScalingType.SCALE_ASPECT_FILL);
-        renderer.setZOrderMediaOverlay(true);
-        //renderer.setEnableHardwareScaler(true);
-        renderer.setEnableHardwareScaler(false);
+        camera1Btn.setOnClickListener(this);
+        camera2Btn.setOnClickListener(this);
+        screenBtn.setOnClickListener(this);
     }
 
-    private VideoCapturer createCameraCapturer(CameraEnumerator enumerator) {
-        final String[] deviceNames = enumerator.getDeviceNames();
-
-        // First, try to find front facing camera
-        Log.d(TAG, "Looking for front facing cameras.");
-        for (String deviceName : deviceNames) {
-            if (enumerator.isFrontFacing(deviceName)) {
-                Log.d(TAG, "Creating front facing camera capturer.");
-                VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
-                if (videoCapturer != null) {
-                    return videoCapturer;
-                }
-            }
-        }
-
-        // Front facing camera not found, try something else
-        Log.d(TAG, "Looking for other cameras.");
-        for (String deviceName : deviceNames) {
-            if (!enumerator.isFrontFacing(deviceName)) {
-                Log.d(TAG, "Creating other camera capturer.");
-                VideoCapturer videoCapturer = enumerator.createCapturer(deviceName, null);
-
-                if (videoCapturer != null) {
-                    return videoCapturer;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private static final String[] REQUESTED_PERMISSIONS = {
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
-    private void request() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, " grad");
-            ActivityCompat.requestPermissions(this,
-                    REQUESTED_PERMISSIONS, 1);
-            //videoCapturer = createCameraCapturer(new Camera1Enumerator(true));
-            videoCapturer = createCameraCapturer(new Camera2Enumerator(this));
-
-            surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
-            videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), new CapturerObserver() {
-                @Override
-                public void onCapturerStarted(boolean success) {
-
-                }
-
-                @Override
-                public void onCapturerStopped() {
-
-                }
-
-                @Override
-                public void onFrameCaptured(VideoFrame frame) {
-                    renderer.onFrame(frame);
-                }
-            });
-            videoCapturer.startCapture(1920, 1080, 30);
-        } else {
-            Log.d(TAG, " not grad");
-            videoCapturer = createCameraCapturer(new Camera2Enumerator(this));
-
-            surfaceTextureHelper = surfaceTextureHelper.create("CaptureThread", eglBase.getEglBaseContext());
-            videoCapturer.initialize(surfaceTextureHelper, getApplicationContext(), new CapturerObserver() {
-                @Override
-                public void onCapturerStarted(boolean success) {
-
-                }
-
-                @Override
-                public void onCapturerStopped() {
-
-                }
-
-                @Override
-                public void onFrameCaptured(VideoFrame frame) {
-                    renderer.onFrame(frame);
-                }
-            });
-            videoCapturer.startCapture(1920, 1080, 30);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.camera1_btn:
+                Intent camera1Intent = new Intent(this, Camera1Activity.class);
+                startActivity(camera1Intent);
+                break;
+            case R.id.camera2_btn:
+                Intent camera2Intent = new Intent(this, Camera2Activity.class);
+                startActivity(camera2Intent);
+                break;
+            case R.id.screen_btn:
+                Intent screenIntent = new Intent(this, ScreenActivity.class);
+                startActivity(screenIntent);
+                break;
         }
     }
-
 }

@@ -5,11 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <com.example.capturecamera.cameras.SurfaceViewRenderer
-        android:id="@+id/fullscreen_video_view"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:layout_height="match_parent">
+        <Button
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="160dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/camera1_btn"
+            android:text="Camera1"
+            ></Button>
+        <Button
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="160dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/camera2_btn"
+            android:text="Camera2"
+            ></Button>
+
+        <Button
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="160dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/screen_btn"
+            android:text="screen"
+            ></Button>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
